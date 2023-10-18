@@ -3,9 +3,7 @@
 
 int main(int ac, char **av) {
     Parser parse(ac, av);
-    (void)ac;
-    (void)av;
-    (void)parse;
+
 
     if (!parse.Get_args().empty()) {
         for (size_t i = 0; i < parse.Get_size(); i++) {
@@ -18,11 +16,7 @@ int main(int ac, char **av) {
         }
     }
 
-    // try {
-    //     parse.Check_size_greater_than(5);
-    //     parse.Check_size_less_than(3);
-    // }
-    // catch (const std::exception& e)
-	// { std::cout << "Error: " << e.what() << std::endl; }	
+    testeur(parse);
     return 0;
 }
+

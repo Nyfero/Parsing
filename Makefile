@@ -34,7 +34,7 @@ SRCS_PATH = srcs
 # PARSING_PATH = parsing
 
 #    Files
-FILES = main.cpp Parser.cpp
+FILES = main.cpp Parser.cpp tester.cpp
 
 # CLASS = $(addprefix $(CLASS_PATH)/, ImageFormat.cpp)
 
