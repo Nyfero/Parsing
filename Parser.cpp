@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <filesystem>
+#include <cctype>
 #include "Parser.hpp"
 
 
@@ -113,6 +114,22 @@ int Parser::Check_args_nb_i(size_t i) const {
     return 0;
 }
 
+int Parser::Checks_args_alpha() const {
+    for (size_t i = 0; i < this->_size; i++) {
+        Checks_args_alpha_i(i);
+    }
+    return 0;
+}
+
+int Parser::Checks_args_alpha_i(size_t i) const {
+    for (size_t j = 0; j < this->_args[i].size(); j++) {
+        if (!std::isalnum(static_cast<unsigned char>(this->_args[i][j]))) {
+            throw IsNotAlphaNumericE();
+        }
+    }
+    return 0;
+}
+
 int Parser::Check_args_file() const {
     for (size_t i = 0; i < this->_size; i++) {
         Check_args_file_i(i);
@@ -127,18 +144,36 @@ int Parser::Check_args_file_i(size_t i) const {
     return 0;
 }
 
-int Parser::Check_args_folder() const {
+int Parser::Check_args_directory() const {
     for (size_t i = 0; i < this->_size; i++) {
-        Check_args_folder_i(i);
+        Check_args_directory_i(i);
     }
     return 0;
 }
 
-int Parser::Check_args_folder_i(size_t i) const {
+int Parser::Check_args_directory_i(size_t i) const {
     if (!std::filesystem::is_directory(this->_args[i])) {
-        throw IsNotFolderE();
+        throw IsNotDirectoryE();
     }
     return 0;
+}
+
+int Parser::Check_args_flags() const {
+    for (size_t i = 0; i < this->_size; i++) {
+        if (this->_args[i][0] == '-') {
+            Check_args_flags_i(i);
+        }
+    }
+    return 0;
+}
+
+int Parser::Check_args_flags_i(size_t i) const {
+    for (size_t j = 0; j < this->_flags.size(); j++) {
+        if (this->_args[i] == this->_flags[j]) {
+            return 0;
+        }
+    }
+    throw UnknowFlagE();
 }
 
 
@@ -147,29 +182,33 @@ int Parser::Check_args_folder_i(size_t i) const {
 /***********/
 
 const char* Parser::ToMuchArgsE::what() const throw() {
-	return ("To much arguments");
+	return ("Too many arguments");
 }
 
 const char* Parser::NotEnoughtArgsE::what() const throw() {
-	return ("Not enought arguments");
+	return ("Not enough arguments");
 }
 
 const char* Parser::IsNotCharE::what() const throw() {
-	return ("The argument must be letters");
+	return ("Not strictly alphabetical");
 }
 
 const char* Parser::IsNotNumberE::what() const throw() {
-	return ("The argument must be a numbers");
+	return ("Not strictly numbers");
+}
+
+const char* Parser::IsNotAlphaNumericE::what() const throw() {
+    return ("Not striclty alphanumeric");
 }
 
 const char* Parser::IsNotFileE::what() const throw() {
-	return ("The argument must be a file");
+	return ("Not a file");
 }
 
-const char* Parser::IsNotFolderE::what() const throw() {
-	return ("The argument must be a folder");
+const char* Parser::IsNotDirectoryE::what() const throw() {
+	return ("Not a directory");
 }
 
-const char* Parser::BadFlagE::what() const throw() {
+const char* Parser::UnknowFlagE::what() const throw() {
 	return ("Unknow flag");
 }

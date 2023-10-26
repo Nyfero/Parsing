@@ -36,15 +36,18 @@ class Parser {
         // Check if the args are numbers
         int                         Check_args_nb() const;
         int                         Check_args_nb_i(size_t i) const;
+        // Check if the args are alphanumeric
+        int                         Checks_args_alpha() const;
+        int                         Checks_args_alpha_i(size_t i) const;
         // Check if the args are a files
         int                         Check_args_file() const;
         int                         Check_args_file_i(size_t i) const;
         // Check if the args are a folders
-        int                         Check_args_folder() const;
-        int                         Check_args_folder_i(size_t i) const;
+        int                         Check_args_directory() const;
+        int                         Check_args_directory_i(size_t i) const;
         // Check if they are the good flags
-        // int                         Check_flag_is(std::vector<std::string> tab) const;
-        // int                         Check_flag_is_i(std::vector<std::string> tab, size_t i) const;
+        int                         Check_args_flags() const;
+        int                         Check_args_flags_i(size_t i) const;
 
     //Throw
 		class ToMuchArgsE : public std::exception {
@@ -71,19 +74,25 @@ class Parser {
 			    virtual const char* what() const throw();
         };
 
+        class IsNotAlphaNumericE : public std::exception {
+
+            public:
+                virtual const char* what() const throw();
+        };
+
         class IsNotFileE : public std::exception {
             
             public:
 			    virtual const char* what() const throw();
         };
 
-        class IsNotFolderE : public std::exception {
+        class IsNotDirectoryE : public std::exception {
             
             public:
 			    virtual const char* what() const throw();
         };
 
-        class BadFlagE : public std::exception {
+        class UnknowFlagE : public std::exception {
             
             public:
 			    virtual const char* what() const throw();
