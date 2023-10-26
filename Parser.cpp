@@ -1,4 +1,11 @@
-#include "../class/Parser.hpp"
+#include <unistd.h>
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <vector>
+#include <filesystem>
+#include "Parser.hpp"
 
 
 /******************/
@@ -19,11 +26,9 @@ Parser::~Parser() {}
 /*  Setters  */
 /*************/
 
-void Parser::Set_flags() {
-    for (size_t i = 0; i < this->_size; i++) {
-        if (this->_args[i][0] == '-') {
-            this->_flags.push_back(_args[i]);
-        }
+void Parser::Set_flags(std::vector<std::string> flag) {
+    for (size_t i = 0; i < flag.size(); i++) {
+        this->_flags.push_back(flag[i]);
     }
 }
 
@@ -57,14 +62,21 @@ std::string Parser::Get_flags_i(size_t i) const {
 /*  Checkers  */
 /**************/
 
+
+int Parser::Check_size_is(size_t i) const {
+    Check_size_less_than(i);
+    Check_size_greater_than(i);
+    return 0;
+}
+
 int Parser::Check_size_less_than(size_t i) const {
-    if (this->_size >= i)
+    if (this->_size > i)
         throw ToMuchArgsE();
     return 0;
 }
 
 int Parser::Check_size_greater_than(size_t i) const {
-    if (this->_size <= i)
+    if (this->_size < i)
         throw NotEnoughtArgsE();
     return 0;
 }

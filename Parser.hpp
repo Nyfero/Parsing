@@ -1,5 +1,4 @@
 #pragma once
-#include "../inc/parsing.hpp"
 
 class Parser {
 
@@ -8,7 +7,7 @@ class Parser {
         std::vector<std::string>    _args;
         // Store argc - 1
         size_t                      _size;
-        // Store in the order if they are flags
+        // Store all the flags that are useable
         std::vector<std::string>    _flags;
 
     public:
@@ -17,7 +16,7 @@ class Parser {
         ~Parser();
 
     // Setters
-        void                        Set_flags();
+        void                        Set_flags(std::vector<std::string> flag);
 
     // Getters
         size_t                      Get_size() const;
@@ -28,6 +27,7 @@ class Parser {
 
     // Checkers
         // Check the nb of param
+        int                         Check_size_is(size_t i) const;
         int                         Check_size_less_than(size_t i) const;
         int                         Check_size_greater_than(size_t i) const;
         // Check if the args aren't numbers
